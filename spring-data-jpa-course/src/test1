@@ -1,0 +1,115 @@
+*) Write a query method -find by Distinct
+ 
+ write a query method to find or retrive a unique product by name;
+ 
+ Query:
+ select distinct id,active,date_created,description,image_url,last_updated,name,price,sku
+  from products where name="product 1"
+  
+  Query pridicate spring jpa:
+  
+  public Product findDistinctByName(String title)
+  
+ *)Query method -find by graterThan
+  write a query method to find the or retrive products whose price is greater than given
+  price as method parameter
+  
+    select id,active,date_created,description,image_url,last_updated,name,price,sku
+	  from products where price >100;
+	  
+	  public List<Products> findByPriceGreaterThan(BigDecimal price);
+	  
+*)query method - find by Containing
+write a query method to find or retrive filtered products that much the given text(contains check)
+
+select id,active,date_created,description,image_url,last_updated,name,price,sku
+	  from products where name '%product%';
+	  
+	  List<Product> findByNameContaning(String name)
+	  
+ *)Query method In 
+ 
+ write a query method to find retrive products based on multiple values(specify multiple 
+  values in a sql where clause)
+  
+   select id,active,date_created,description,image_url,last_updated,name,price,sku
+	  from products where name in ('product 1', 'product 2');
+	  
+	  List<Product>findByNameIn(List<String> name);
+	  
+*)Spring Data jpa supports keywords 'first' or 'top' to limit the query  result
+
+  example: findFirstByName(),  findTop5BySku()
+  
+  
+  problem with query methods
+  
+  .keyword support - if the method name parser doesn't support the required keyword 
+                      we can't use this strategy
+			         this methods names of complex query methods are long and ugly
+					 
+	List<Product>findByDescriptionContainesOrNamesContainsAllIgnoreCases(String description,String name)
+	
+	. And this is for just two parameters.what happens when you want to create a query for 5 parameters
+	  ?
+	  
+	 .this is point when you'll most likely want to prefer to write your own queries 
+	    this is doable via the @Query annotations.
+		
+
+  Understanding the @Query Annotation
+  
+   .we can configure the invoked database query by annotating the query method with
+    the @Query annotation.
+	
+	//define JPQL query with index parameters
+	@Query("select p from Product p where p.name = ?1 or p.description =?2");
+	Product findByNameOrDescriptionJPQLIndexParam(String name, String description);
+	
+	.No need to follow query method naming convention
+	
+	.we can use the @Query annotation in spring Data JPA to execute both JPQL and
+     	native sql Quieries
+	
+	
+	Steps to create JPQL query with the @Query annotation
+	
+	step 2: Annotate the query method with the @Query annotation , and specify the invoked 
+	        query by setting it as value of the @Query Annotation.
+			
+		public interface ProductRepositary extend JpaRepository<Product, Long> {
+		 @Query("select p from Product p where p.name = ?1 or p.description =?2");
+		Product findByNameOrDescriptionJPQLIndexParam(String name, String description);
+			
+		}
+		
+		
+	JPQL parameter with Named Parameter
+	Named parameter can be referenced by name,no matter their possition:
+	 
+	 public interface ProductRepositary extends JpaRepository<Product,Long>{
+		// define JPQL query with named parameter
+		@query("Select p from Product p where p.name =:name p.description =:p.description")
+		
+		Product findByNameOrDescriptionJPQLNamedParam(@Param(@name) String name,
+													  @param("description") String description)
+													  				 
+	 }
+		The name within the @param annotationis matched to the named parameters in the @query 
+		annotation, so you're free to call your variables however you'd like-but for consistency
+		sake-it's to use the same name.
+		
+	Native SQL Query with Index(Position) Parameters
+	
+	When using position - based parameters, you have to keep track of the order in which you
+	supply the parameters in :
+	
+	
+  //define JPQL query with index parameters
+	@Query(value = "select p from Product p where p.name = ?1 or p.description =?2",nativeQuery=true);
+	Product findByNameOrDescriptionJPQLIndexParam(String name, String description);
+	
+	The first parameter passed to the method ?1 and secoend parameter mapped to ?2, if you 
+	accidentally switch these up - your query will likely throw an exception , or suddenly produce the 
+	 wrong result.
+  
