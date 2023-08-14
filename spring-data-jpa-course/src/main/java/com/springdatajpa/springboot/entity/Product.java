@@ -12,6 +12,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
@@ -26,6 +27,12 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+
+@NamedQuery(
+		name="Product.findByPrice",
+		query = "SELECT p from Product p where p.price =?1"
+		)
+
 @Table(name = "products", 
 	   schema = "ecommerce",
 	   uniqueConstraints = {
