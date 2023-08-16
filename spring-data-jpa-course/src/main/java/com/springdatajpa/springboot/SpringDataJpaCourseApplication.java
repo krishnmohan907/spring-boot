@@ -26,7 +26,7 @@ public class SpringDataJpaCourseApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		// TODO Auto-generated method stub
 
-		// saveUpdate();
+//		 saveUpdate();
 		// updataUsingSaveMethod();
 		// findById();
 		// saveAllMethods();
@@ -47,7 +47,7 @@ public class SpringDataJpaCourseApplication implements CommandLineRunner {
 		
 //		findByNameorDescriptionJPQLNamedParam("apple","updated product");
 		
-		findAllOrderNameDesc();
+//		findAllOrderNameDesc();
 	}
 	
 	   void findAllOrderNameDesc() {
@@ -124,9 +124,9 @@ public class SpringDataJpaCourseApplication implements CommandLineRunner {
 		// save product
 		// display product information
 		Product product = new Product();
-		product.setName("product 1");
+		product.setName("product 3");
 		product.setDescription("product 1 description");
-		product.setSku("100ACB");
+		product.setSku("22315");
 		product.setPrice(new BigDecimal(100));
 		product.setImage_url("proddect png.1");
 		product.setActive(true);

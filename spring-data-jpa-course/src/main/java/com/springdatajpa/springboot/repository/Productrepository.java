@@ -76,9 +76,9 @@ public interface Productrepository extends JpaRepository<Product, Long> {
 	List<Product> findAllOrderNameDesc();
 	
 	
-	//Define Named native SQL query
-	@Query(nativeQuery = true)
-	Product findByDescription(@Param("description") String description);
-	List<Product> findAllOrderByASC();
+//	//Define Named native SQL query
+//	@Query(nativeQuery = true)
+//	Product findByDescription(@Param("description") String description);
+//	List<Product> findAllOrderByASC();
 	
 }
