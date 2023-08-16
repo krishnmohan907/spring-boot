@@ -46,9 +46,20 @@ public class SpringDataJpaCourseApplication implements CommandLineRunner {
 //		findByNameorDescriptionJPQLIndexParam("apple","updated product");
 		
 //		findByNameorDescriptionJPQLNamedParam("apple","updated product");
+		
+		findAllOrderNameDesc();
 	}
 	
-	  void findByNameorDescriptionJPQLNamedParam(String name, String descriptions) {
+	   void findAllOrderNameDesc() {
+		// TODO Auto-generated method stub
+		   
+		   List<Product> namedparameter = productrepo.findAllOrderNameDesc();
+		   
+		   System.out.println("named parameter " +namedparameter );
+		
+	}
+
+	void findByNameorDescriptionJPQLNamedParam(String name, String descriptions) {
 			Product pro = productrepo.findByNameorDescriptionJPQLNamedParam(name, descriptions);
 			
 			System.out.println("pro description value"  +pro);

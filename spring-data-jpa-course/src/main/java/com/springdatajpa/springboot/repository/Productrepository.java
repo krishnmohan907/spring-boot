@@ -10,6 +10,8 @@ import org.springframework.data.repository.query.Param;
 
 import com.springdatajpa.springboot.entity.Product;
 
+
+
 public interface Productrepository extends JpaRepository<Product, Long> {
 
 	/**
@@ -62,9 +64,21 @@ public interface Productrepository extends JpaRepository<Product, Long> {
 	Product findByNameorDescriptionSQLNamedParam(@Param("name") String name, @Param("description") String description);
 
 //Define JPQL query
-	Product findByPrice(BigDecimal name);
+//	Product findByPrice(BigDecimal name);
 	
 //	//Define JPQL query
 //		Product findByPrice(@Param("price") BigDecimal price);
 
+	
+	//Define Named JPQL query
+	
+	Product findByPrice(@Param("price") BigDecimal price);
+	List<Product> findAllOrderNameDesc();
+	
+	
+	//Define Named native SQL query
+	@Query(nativeQuery = true)
+	Product findByDescription(@Param("description") String description);
+	List<Product> findAllOrderByASC();
+	
 }

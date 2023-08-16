@@ -112,4 +112,49 @@ select id,active,date_created,description,image_url,last_updated,name,price,sku
 	The first parameter passed to the method ?1 and secoend parameter mapped to ?2, if you 
 	accidentally switch these up - your query will likely throw an exception , or suddenly produce the 
 	 wrong result.
+	 
+	 
+	 
+  *) Define Multiple Named JPQL queries
+     if u want to create a multiple JPQL query, we must follow these steps
+       . Annotate the entity with the @NamedQueries annotation from JPA/Hibernate.
+       . Use multiple @NamedQuery annotations from JPA/Hibernate to define a named query
+       . set the name of the named query as the value of the @NamedQuery annotation's name
+         attribute.
+       . Set the JPQL query as the value of the @NamedQuery annotations's query attribuite
+       
+            @NamedQuries(
+            {
+              @NamedQuery(name = "Product.findAllOrderByNameDesc"
+            	  query ="SELECT P from Product p Order By p.name DESC"
+            	),
+            	(
+            	 @NamedQuery(name = "Product.findByPrice"
+            	  query ="SELECT P from Product p where p.price =:price"
+            	)
+            
+            }
+            
+            Product findByPrice(@Param("price") BigDecimal price);
+			List<Product> findAllOrderNameDesc();
+            	
+            	
+       *)Steps to Define Named SQL query
+          if u want to create a SQL query we must follow these steps
+          
+          . Annotate the entity with the  @NamedNativeQuery annotation from JPA
+          . Set the name of the named query as the value of the @NamedNativeQuery annotation's
+            name attribute.
+          . set the SQL query as the value of the @NamedNativeQuery annotation query attribute
+          . set the returned entity class (Product.class) as the value of the NamedNativeQuery annotation 
+              resultClass attribute.
+              
+              ex: @NamedNativeQuery(
+              	    name: "PRODUCT.findBySku"
+              	    query:" SELECT * from PRODUCTS WHERE sku =:sku",
+              	    resultClass = Product.class
+              ) 
+            	
+            	@Query(nativeQuery= true)
+            	Product findBySku(@Param("sku") String sku);
   
